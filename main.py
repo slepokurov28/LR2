@@ -1,7 +1,7 @@
 from lab2 import DairyProduct, MeatProduct, Confectionery
-import requests
-from requests.models import PreparedRequest
+from colorama import Fore, Style, init
 
+init(autoreset=True)
 
 
 def create_products():
@@ -12,20 +12,19 @@ def create_products():
     ]
 
 
-
-def input_number(prompt: str) -> float:
+def input_number(prompt: str):
     while True:
         value = float(input(prompt))
         if value < 0:
-            print("Значение не может быть отрицательным. Попробуйте снова.")
+            print(Fore.RED + "Значение не может быть отрицательным. Попробуйте снова." + Style.RESET_ALL)
             continue
         return value
 
 
-
 def product_menu(product):
     while True:
-        print(f"Выбран продукт: {product.name}")
+        print("\n" + Fore.CYAN + "=" * 60 + Style.RESET_ALL)
+        print(f"Выбран продукт: {Fore.YELLOW}{product.name}{Style.RESET_ALL}")
         print("Что вы хотите сделать?")
         print("  1. Показать характеристики экземпляра")
         print("  2. Рассчитать калорийность порции")
@@ -33,48 +32,50 @@ def product_menu(product):
         print("  4. Проверить на высококалорийность")
         print("  0. Вернуться к выбору продукта")
 
-        choice = input("Ваш выбор: ")
+        choice = input("Ваш выбор: ").strip()
 
         if choice == "1":
-            print("\n--- Характеристики ---")
+            print("\n Характеристики ")
             print(product)
-            print(f"Категория: {product.get_category()}")
+
 
         elif choice == "2":
             grams = input_number("Введите вес порции в граммах: ")
             kcal = product.calculate_calories(grams)
-            print(f"\nКалорийность порции {grams:.1f} г: {kcal:.1f} ккал")
+            print(f"\nКалорийность порции {grams:.1f} г: "
+                  f"{Fore.GREEN}{kcal:.1f} ккал{Style.RESET_ALL}")
 
         elif choice == "3":
             grams = input_number("Введите вес порции в граммах: ")
             price = product.calculate_price(grams)
-            print(f"\nСтоимость порции {grams:.1f} г: {price:.2f} руб.")
+            print(f"\nСтоимость порции {grams:.1f} г: "
+                  f"{Fore.GREEN}{price:.2f} руб.{Style.RESET_ALL}")
 
         elif choice == "4":
             grams = input_number("Введите вес порции в граммах: ")
             if product.is_high_calorie(grams):
-                print(f"\nПорция {grams:.1f} г высококалорийная (> 300 ккал).")
+                print(Fore.RED + f"\nПорция {grams:.1f} г ВЫСОКОКАЛОРИЙНАЯ (> 300 ккал)." + Style.RESET_ALL)
             else:
-                print(f"\nПорция {grams:.1f} г НЕ высококалорийная (≤ 300 ккал).")
+                print(Fore.GREEN + f"\nПорция {grams:.1f} г не является высококалорийной (≤ 300 ккал)." + Style.RESET_ALL)
 
         elif choice == "0":
             return
 
         else:
-            print("Неверный пункт меню.")
+            print(Fore.RED + "Неверный пункт меню." + Style.RESET_ALL)
             continue
 
-        input("\nНажмите Enter, чтобы вернуться в меню")
+        input(Fore.MAGENTA + "\nНажмите Enter, чтобы вернуться в меню..." + Style.RESET_ALL)
 
 
 def main_menu(products):
     while True:
-        print("Выбор продукта")
+        print(Fore.CYAN + "ГЛАВНОЕ МЕНЮ — ВЫБОР ПРОДУКТА" + Style.RESET_ALL)
         for i, p in enumerate(products, start=1):
             print(f"  {i}. {p.name}  ({p.get_category()})")
         print("  0. Выйти из программы")
 
-        choice = input("Ваш выбор: ")
+        choice = input("Ваш выбор: ").strip()
 
         if choice == "0":
             return False
@@ -82,17 +83,11 @@ def main_menu(products):
         if choice.isdigit() and 1 <= int(choice) <= len(products):
             product_menu(products[int(choice) - 1])
         else:
-            print("Неверный пункт меню.")
+            print(Fore.RED + "Неверный пункт меню." + Style.RESET_ALL)
 
 
 def demo_external_packages():
-    print("\n" + "=" * 60)
-    print("Внешний пакет чере pip")
-    print(f"Версия requests: {requests.__version__}")
-
-    req = PreparedRequest()
-    req.prepare_url("https://example.com/search", {"q": "python", "page": 1})
-    print(f"ссылка: {req.url}")
+    print(Fore.GREEN + "..." + Style.RESET_ALL)
 
 
 def main():
@@ -102,7 +97,7 @@ def main():
     running = main_menu(products)
 
     if not running:
-        print("\n. . .")
+        print(Fore.CYAN + "\nДо свидания!" + Style.RESET_ALL)
 
 
 if __name__ == "__main__":

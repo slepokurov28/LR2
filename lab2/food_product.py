@@ -11,7 +11,7 @@ class FoodProduct(ABC):
         self.calories_per_100g = calories_per_100g
 
     @property
-    def name(self) -> str:
+    def name(self):
         return self.__name
 
     @name.setter
@@ -21,7 +21,7 @@ class FoodProduct(ABC):
         self.__name = value
 
     @property
-    def price_per_kg(self) -> float:
+    def price_per_kg(self):
         return self.__price_per_kg
 
     @price_per_kg.setter
@@ -31,7 +31,7 @@ class FoodProduct(ABC):
         self.__price_per_kg = value
 
     @property
-    def calories_per_100g(self) -> float:
+    def calories_per_100g(self):
         return self.__calories_per_100g
 
     @calories_per_100g.setter
@@ -41,23 +41,19 @@ class FoodProduct(ABC):
         self.__calories_per_100g = value
 
     @abstractmethod
-    def get_category(self) -> str:
-        """Возвращает категорию продукта."""
+    def get_category(self):
         pass
 
-    def calculate_calories(self, portion_grams: float) -> float:
-        """Расчёт калорийности порции (граммы)."""
+    def calculate_calories(self, portion_grams: float):
         return (self.calories_per_100g * portion_grams) / 100.0
 
-    def calculate_price(self, portion_grams: float) -> float:
-        """Расчёт стоимости порции (граммы)."""
+    def calculate_price(self, portion_grams: float):
         return (self.price_per_kg * portion_grams) / 1000.0
 
-    def is_high_calorie(self, portion_grams: float) -> bool:
-        """Проверка на высококалорийность: > 300 ккал на порцию."""
+    def is_high_calorie(self, portion_grams: float):
         return self.calculate_calories(portion_grams) > 300
 
-    def __str__(self) -> str:
+    def __str__(self):
         return (f"[{self.get_category()}] {self.name}, "
                 f"цена: {self.price_per_kg:.2f} руб/кг, "
                 f"калорийность: {self.calories_per_100g:.1f} ккал/100г")

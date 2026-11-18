@@ -8,7 +8,7 @@ class DairyProduct(FoodProduct):
         self.fat_content = fat_content
 
     @property
-    def fat_content(self) -> float:
+    def fat_content(self):
         return self.__fat_content
 
     @fat_content.setter
@@ -17,9 +17,9 @@ class DairyProduct(FoodProduct):
             raise ValueError("Жирность должна быть от 0 до 100%")
         self.__fat_content = value
 
-    def get_category(self) -> str:
+    def get_category(self):
         return "Молочный продукт"
 
-    def __str__(self) -> str:
+    def __str__(self):
         base = super().__str__()
         return f"{base}, жирность: {self.fat_content}%"
